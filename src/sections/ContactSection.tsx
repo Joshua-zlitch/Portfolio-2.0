@@ -63,14 +63,14 @@ export function ContactSection() {
                 href={`mailto:${site.contact.email}?subject=Collaboration%20Query&body=Hi%20${encodeURIComponent(
                   site.name,
                 )}%2C%0A%0A`}
-                className="inline-flex items-center justify-center rounded border border-cyberPink/60 bg-cyberPink/10 px-8 py-3.5 text-[10px] font-bold uppercase tracking-[0.25em] text-textLight transition-all hover:bg-cyberPink/20 hover:shadow-pinkGlow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyberPink/70"
+                className="cursor-target inline-flex items-center justify-center rounded border border-cyberPink/60 bg-cyberPink/10 px-8 py-3.5 text-[10px] font-bold uppercase tracking-[0.25em] text-textLight transition-all hover:bg-cyberPink/20 hover:shadow-pinkGlow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyberPink/70"
               >
                 Send Email
               </a>
               <button
                 type="button"
                 onClick={copyEmail}
-                className="inline-flex items-center justify-center rounded border border-textLight/20 bg-spaceDark/50 px-8 py-3.5 text-[10px] font-bold uppercase tracking-[0.25em] text-textLight/80 transition-all hover:border-textLight/40 hover:bg-spaceDark/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyberPink/70"
+                className="cursor-target inline-flex items-center justify-center rounded border border-textLight/20 bg-spaceDark/50 px-8 py-3.5 text-[10px] font-bold uppercase tracking-[0.25em] text-textLight/80 transition-all hover:border-textLight/40 hover:bg-spaceDark/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyberPink/70"
               >
                 {copied ? 'Copied Socket' : 'Copy Socket Address'}
               </button>
@@ -91,7 +91,7 @@ export function ContactSection() {
                   href={s.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center rounded-full border border-textLight/10 bg-spaceBlack/50 px-5 py-2.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-textLight/70 transition-all hover:border-cyberCyan/40 hover:text-cyberCyan hover:bg-cyberCyan/5"
+                  className="cursor-target inline-flex items-center justify-center rounded-full border border-textLight/10 bg-spaceBlack/50 px-5 py-2.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-textLight/70 transition-all hover:border-cyberCyan/40 hover:text-cyberCyan hover:bg-cyberCyan/5"
                 >
                   {s.label}
                 </a>

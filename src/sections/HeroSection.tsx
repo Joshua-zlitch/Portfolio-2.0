@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, lazy, Suspense } from 'react'
+import { useRef, lazy, Suspense } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { site } from '../content/site'
 import { GamerTitle } from '../components/GamerTitle'
@@ -14,11 +14,7 @@ function scrollToId(id: string) {
 export function HeroSection() {
   const rootRef = useRef<HTMLDivElement | null>(null)
   const inView = useInView(rootRef, { once: true, margin: '-10% 0px' })
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    if (inView) setMounted(true)
-  }, [inView])
+  const mounted = inView
 
   return (
     <section id="top" className="relative min-h-screen overflow-hidden scroll-mt-24">
@@ -73,7 +69,7 @@ export function HeroSection() {
             <button
               type="button"
               onClick={() => scrollToId('projects')}
-              className="group relative inline-flex items-center justify-center rounded border border-cyberCyan/40 bg-cyberCyan/10 px-8 py-3.5 text-[10px] font-bold uppercase tracking-[0.25em] text-cyberCyan transition-all hover:bg-cyberCyan/20 hover:shadow-cyanGlow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyberCyan/70"
+              className="cursor-target group relative inline-flex items-center justify-center rounded border border-cyberCyan/40 bg-cyberCyan/10 px-8 py-3.5 text-[10px] font-bold uppercase tracking-[0.25em] text-cyberCyan transition-all hover:bg-cyberCyan/20 hover:shadow-cyanGlow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyberCyan/70"
             >
               Launch Deployment
             </button>
@@ -81,7 +77,7 @@ export function HeroSection() {
             <button
               type="button"
               onClick={() => scrollToId('contact')}
-              className="inline-flex items-center justify-center rounded border border-cyberPurple/40 bg-spaceDark/60 px-8 py-3.5 text-[10px] font-bold uppercase tracking-[0.25em] text-cyberPurple transition-all hover:border-cyberPurple/80 hover:bg-cyberPurple/10 hover:shadow-purpleGlow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyberPurple/70"
+              className="cursor-target inline-flex items-center justify-center rounded border border-cyberPurple/40 bg-spaceDark/60 px-8 py-3.5 text-[10px] font-bold uppercase tracking-[0.25em] text-cyberPurple transition-all hover:border-cyberPurple/80 hover:bg-cyberPurple/10 hover:shadow-purpleGlow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyberPurple/70"
             >
               Comms Channel
             </button>

@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { useEffect, useRef, useState } from 'react'
+import { useRef } from 'react'
 import { motion, useMotionValue, useSpring } from 'framer-motion'
 import { Tag } from './Tag'
 
@@ -23,7 +23,6 @@ export function ProjectCard({
   children?: ReactNode
 }) {
   const cardRef = useRef<HTMLDivElement | null>(null)
-  const [tiltEnabled, setTiltEnabled] = useState(false)
 
   const rotateX = useMotionValue(0)
   const rotateY = useMotionValue(0)
@@ -34,20 +33,17 @@ export function ProjectCard({
   const rys = useSpring(rotateY, { stiffness: 200, damping: 22, mass: 0.25 })
   const rzs = useSpring(rz, { stiffness: 200, damping: 22, mass: 0.25 })
 
-  useEffect(() => {
-    const fine =
-      typeof window !== 'undefined' &&
-      window.matchMedia &&
-      window.matchMedia('(pointer: fine)').matches
-    setTiltEnabled(!!fine)
-  }, [])
+  const finePointer =
+    typeof window !== 'undefined' &&
+    window.matchMedia &&
+    window.matchMedia('(pointer: fine)').matches
 
   return (
     <motion.article
       ref={cardRef}
       className="group relative rounded-xl border border-textLight/10 bg-spaceDark/40 p-7 transition-all duration-300 will-change-transform hover:border-cyberCyan/30 hover:shadow-cyanGlow"
       onPointerMove={(e) => {
-        if (!tiltEnabled) return
+        if (!finePointer) return
         const el = cardRef.current
         if (!el) return
         const r = el.getBoundingClientRect()
@@ -66,9 +62,9 @@ export function ProjectCard({
       style={{
         transformStyle: 'preserve-3d',
         perspective: '800px',
-        rotateX: tiltEnabled ? rxs : 0,
-        rotateY: tiltEnabled ? rys : 0,
-        rotateZ: tiltEnabled ? rzs : 0,
+        rotateX: finePointer ? rxs : 0,
+        rotateY: finePointer ? rys : 0,
+        rotateZ: finePointer ? rzs : 0,
       }}
     >
       {/* Dynamic Cyber Hover Gradient Overlay */}
@@ -122,7 +118,7 @@ export function ProjectCard({
             href={link}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-6 flex items-center justify-between border-t border-textLight/5 pt-4 text-[10px] font-heading uppercase tracking-[0.25em] text-textLight/65 transition-colors hover:text-cyberCyan hover:text-glow-cyan"
+            className="cursor-target mt-6 flex items-center justify-between border-t border-textLight/5 pt-4 text-[10px] font-heading uppercase tracking-[0.25em] text-textLight/65 transition-colors hover:text-cyberCyan hover:text-glow-cyan"
           >
             <span>{linkLabel}</span>
             <div className="flex h-7 w-7 items-center justify-center rounded-full border border-textLight/10 bg-spaceBlack/40 transition-all group-hover:border-cyberCyan/40 group-hover:bg-cyberCyan/10 text-textLight group-hover:text-cyberCyan">

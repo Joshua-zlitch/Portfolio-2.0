@@ -3,7 +3,7 @@ import { ContactSection } from './sections/ContactSection'
 import { HeroSection } from './sections/HeroSection'
 import { ProjectsSection } from './sections/ProjectsSection'
 import { SkillsSection } from './sections/SkillsSection'
-import { CursorAura } from './components/CursorAura'
+import TargetCursor from './components/TargetCursor'
 import { NavBar } from './components/NavBar'
 import { PageTransition } from './components/PageTransition'
 
@@ -25,7 +25,16 @@ function App() {
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-spaceBlack text-textLight font-body selection:bg-cyberCyan/30 selection:text-cyberCyan">
       <NavBar />
-      <CursorAura />
+      <TargetCursor
+        spinDuration={2.2}
+        hideDefaultCursor={true}
+        hoverDuration={0.2}
+        parallaxOn={true}
+        cursorColor="#00f0ff"
+        cursorColorOnTarget="#a855f7"
+        magneticOn={true}
+        magneticStrength={0.24}
+      />
 
       {/* Screen noise overlay for CRT / cinematic grain texture */}
       <div

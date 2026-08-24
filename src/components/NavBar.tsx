@@ -41,7 +41,7 @@ export function NavBar() {
             e.preventDefault()
             scrollToId('top')
           }}
-          className="font-heading font-black uppercase tracking-[0.25em] text-xs text-textLight transition-all hover:text-cyberCyan hover:text-glow-cyan"
+          className="cursor-target font-heading font-black uppercase tracking-[0.25em] text-xs text-textLight transition-all hover:text-cyberCyan hover:text-glow-cyan"
         >
           {site.name}
         </a>
@@ -53,7 +53,7 @@ export function NavBar() {
               key={l.id}
               type="button"
               onClick={() => scrollToId(l.id)}
-              className="text-textMuted transition duration-200 hover:text-cyberCyan hover:text-glow-cyan focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyberCyan/70"
+              className="cursor-target text-textMuted transition duration-200 hover:text-cyberCyan hover:text-glow-cyan focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyberCyan/70"
             >
               {l.label}
             </button>
