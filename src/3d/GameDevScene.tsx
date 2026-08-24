@@ -27,7 +27,15 @@ type ParticleBurstProps = {
   }
 }
 
-function XboxControllerModel() {
+type GameDevSceneProps = {
+  onReady?: () => void
+}
+
+type XboxControllerModelProps = {
+  onReady?: () => void
+}
+
+function XboxControllerModel({ onReady }: XboxControllerModelProps) {
   const materials = useLoader(MTLLoader, MATERIAL_PATH)
   const object = useLoader(OBJLoader, MODEL_PATH, (loader) => {
     materials.preload()
@@ -35,6 +43,10 @@ function XboxControllerModel() {
   })
   const modelRef = useRef<Group | null>(null)
   const scrollProgressRef = useRef(0)
+
+  useEffect(() => {
+    onReady?.()
+  }, [onReady])
 
   useEffect(() => {
     const updateScrollProgress = () => {
@@ -59,12 +71,12 @@ function XboxControllerModel() {
 
     const time = clock.getElapsedTime()
     const scroll = scrollProgressRef.current
-    const scrollTurn = scroll * Math.PI * 1.7
+    const scrollTurn = scroll * Math.PI * 0.6
 
-    // The OBJ is authored with its face along +Z; zero X/Z tilt keeps it facing the visitor.
-    modelRef.current.rotation.x = Math.sin(time * 0.55) * 0.025 + scroll * 0.22
+    // The supplied OBJ's face-button deck already points toward the +Z camera.
+    modelRef.current.rotation.x = Math.sin(time * 0.55) * 0.025 + scroll * 0.12
     modelRef.current.rotation.y = Math.sin(time * 0.18) * 0.035 + scrollTurn
-    modelRef.current.rotation.z = Math.cos(time * 0.35) * 0.018 - scroll * 0.28
+    modelRef.current.rotation.z = Math.cos(time * 0.35) * 0.018 - scroll * 0.16
     modelRef.current.position.x = Math.sin(scroll * Math.PI) * 0.65
     modelRef.current.position.y = Math.sin(time * 0.8) * 0.06 - scroll * 0.42
 
@@ -188,7 +200,7 @@ type SceneContentsProps = {
   burst: BurstState
 }
 
-function SceneContents({ burst }: SceneContentsProps) {
+function SceneContents({ burst, onReady }: SceneContentsProps & XboxControllerModelProps) {
   return (
     <>
       <ambientLight intensity={1.6} color="#d8e8ff" />
@@ -203,7 +215,7 @@ function SceneContents({ burst }: SceneContentsProps) {
         opacity={0.42}
         color="#78f7ff"
       />
-      <XboxControllerModel />
+      <XboxControllerModel onReady={onReady} />
       {burst ? <ParticleBurst key={burst.id} screenPoint={burst} /> : null}
       <ContactShadows
         position={[0, -1.85, 0]}
@@ -217,7 +229,7 @@ function SceneContents({ burst }: SceneContentsProps) {
   )
 }
 
-export default function GameDevScene() {
+export default function GameDevScene({ onReady }: GameDevSceneProps) {
   const sceneRef = useRef<HTMLDivElement | null>(null)
   const burstIdRef = useRef(0)
   const [burst, setBurst] = useState<BurstState>(null)
@@ -264,7 +276,7 @@ export default function GameDevScene() {
         onCreated={({ gl }) => gl.setClearColor('#04020a', 0)}
       >
         <Suspense fallback={null}>
-          <SceneContents burst={burst} />
+          <SceneContents burst={burst} onReady={onReady} />
         </Suspense>
       </Canvas>
 

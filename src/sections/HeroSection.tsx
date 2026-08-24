@@ -1,9 +1,48 @@
-import { useRef, lazy, Suspense } from 'react'
+import { useCallback, useRef, lazy, Suspense, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { site } from '../content/site'
 import { GamerTitle } from '../components/GamerTitle'
+import SplitFlapText from '../components/SplitFlapText'
 
 const GameDevScene = lazy(() => import('../3d/GameDevScene'))
+
+function LoadingScreen() {
+  return (
+    <div className="absolute inset-0 z-[30] flex items-center justify-center bg-spaceBlack px-6 text-center">
+      <div className="w-full max-w-2xl rounded-xl border border-cyberCyan/20 bg-spaceDark/70 px-5 py-8 shadow-[0_0_70px_rgba(0,240,255,0.08)] backdrop-blur-sm sm:px-10">
+        <div className="mb-5 flex items-center justify-center gap-3 font-heading text-[9px] uppercase tracking-[0.34em] text-cyberCyan/80">
+          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-cyberCyan" />
+          Input device handshake // controller core
+          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-cyberCyan" />
+        </div>
+        <SplitFlapText
+          words={['LOADING MODEL', 'SYNCING MATERIALS', 'CALIBRATING INPUT']}
+          flipDuration={0.1}
+          stagger={0.045}
+          cycleDelay={1450}
+          tileColor="#0b1424"
+          textColor="#dffcff"
+          tileRadius={5}
+          gap={3}
+          fontSize="clamp(1.35rem, 5vw, 3.2rem)"
+          padTo={18}
+          className="mx-auto max-w-full justify-center"
+        />
+        <div className="mt-6 flex items-center justify-between gap-4 border-t border-cyberCyan/10 pt-4 font-mono text-[9px] uppercase tracking-[0.16em] text-textLight/45">
+          <span>OBJ // STREAMING</span>
+          <span className="text-cyberPurple">MTL // BINDING</span>
+          <span className="text-cyberPink">WAIT</span>
+        </div>
+        <div className="mt-4 h-1 overflow-hidden rounded-full bg-spaceBlack/80">
+          <div className="h-full w-2/3 animate-pulse bg-gradient-to-r from-cyberCyan via-cyberPurple to-cyberPink" />
+        </div>
+        <p className="mt-4 font-heading text-[9px] uppercase tracking-[0.28em] text-textLight/35">
+          Do not disconnect // visual boot sequence in progress
+        </p>
+      </div>
+    </div>
+  )
+}
 
 function scrollToId(id: string) {
   const el = document.getElementById(id)
@@ -15,21 +54,20 @@ export function HeroSection() {
   const rootRef = useRef<HTMLDivElement | null>(null)
   const inView = useInView(rootRef, { once: true, margin: '-10% 0px' })
   const mounted = inView
+  const [modelReady, setModelReady] = useState(false)
+  const handleModelReady = useCallback(() => setModelReady(true), [])
 
   return (
     <section id="top" className="relative min-h-screen overflow-hidden scroll-mt-24">
       {/* 3D Canvas Background Layer */}
       <div ref={rootRef} className="absolute inset-0 -z-10">
         {mounted ? (
-          <Suspense fallback={
-            <div className="absolute inset-0 flex items-center justify-center bg-spaceBlack">
-              <div className="font-heading text-xs uppercase tracking-[0.3em] text-cyberCyan animate-pulse">
-                Loading Engine Core...
-              </div>
-            </div>
-          }>
-            <GameDevScene />
-          </Suspense>
+          <>
+            <Suspense fallback={<LoadingScreen />}>
+              <GameDevScene onReady={handleModelReady} />
+            </Suspense>
+            {!modelReady ? <LoadingScreen /> : null}
+          </>
         ) : null}
       </div>
 
