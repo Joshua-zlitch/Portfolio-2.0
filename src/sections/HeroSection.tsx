@@ -1,4 +1,4 @@
-import { useCallback, useRef, lazy, Suspense, useState } from 'react'
+import { useCallback, useEffect, useRef, lazy, Suspense, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { site } from '../content/site'
 import { GamerTitle } from '../components/GamerTitle'
@@ -9,7 +9,7 @@ const GameDevScene = lazy(() => import('../3d/GameDevScene'))
 
 function LoadingScreen() {
   return (
-    <div className="absolute inset-0 flex min-h-screen items-center justify-center bg-spaceBlack px-6 text-center">
+    <div className="fixed inset-0 z-[100] flex h-[100dvh] min-h-0 w-screen items-center justify-center overflow-hidden bg-spaceBlack px-6 text-center">
       <div className="w-full max-w-2xl rounded-xl border border-cyberCyan/20 bg-spaceDark/70 px-5 py-8 shadow-[0_0_70px_rgba(0,240,255,0.08)] backdrop-blur-sm sm:px-10">
         <div className="mb-5 flex items-center justify-center gap-3 font-heading text-[9px] uppercase tracking-[0.34em] text-cyberCyan/80">
           <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-cyberCyan" />
@@ -138,8 +138,32 @@ export function HeroSection() {
   const [modelReady, setModelReady] = useState(false)
   const handleModelReady = useCallback(() => setModelReady(true), [])
 
+  useEffect(() => {
+    const html = document.documentElement
+    const body = document.body
+    const previousHtmlOverflow = html.style.overflow
+    const previousBodyOverflow = body.style.overflow
+    const previousHtmlOverscroll = html.style.overscrollBehavior
+    const previousBodyOverscroll = body.style.overscrollBehavior
+
+    if (!modelReady) {
+      html.style.overflow = 'hidden'
+      body.style.overflow = 'hidden'
+      html.style.overscrollBehavior = 'none'
+      body.style.overscrollBehavior = 'none'
+      window.scrollTo(0, 0)
+    }
+
+    return () => {
+      html.style.overflow = previousHtmlOverflow
+      body.style.overflow = previousBodyOverflow
+      html.style.overscrollBehavior = previousHtmlOverscroll
+      body.style.overscrollBehavior = previousBodyOverscroll
+    }
+  }, [modelReady])
+
   return (
-    <section id="top" className="relative min-h-screen overflow-hidden scroll-mt-24">
+    <section id="top" aria-busy={!modelReady} className="relative min-h-screen overflow-hidden scroll-mt-24">
       <div ref={rootRef} className="absolute inset-0 z-0">
         {mounted ? (
           <Suspense fallback={null}>
