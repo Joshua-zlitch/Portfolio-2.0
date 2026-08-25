@@ -73,8 +73,8 @@ function XboxControllerModel({ onReady }: XboxControllerModelProps) {
     const scroll = scrollProgressRef.current
     const scrollTurn = scroll * Math.PI * 0.6
 
-    // The supplied OBJ is authored face-up along +Y; pitch it toward the +Z camera.
-    modelRef.current.rotation.x = -Math.PI / 2 + Math.sin(time * 0.55) * 0.025 + scroll * 0.12
+    // Reverse the authored pitch so the face-button deck points toward the +Z camera.
+    modelRef.current.rotation.x = Math.PI / 2 + Math.sin(time * 0.55) * 0.025 + scroll * 0.12
     modelRef.current.rotation.y = Math.sin(time * 0.18) * 0.035 + scrollTurn
     modelRef.current.rotation.z = Math.cos(time * 0.35) * 0.018 - scroll * 0.16
     modelRef.current.position.x = Math.sin(scroll * Math.PI) * 0.65
