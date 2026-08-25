@@ -71,12 +71,14 @@ function XboxControllerModel({ onReady }: XboxControllerModelProps) {
 
     const time = clock.getElapsedTime()
     const scroll = scrollProgressRef.current
-    const scrollTurn = scroll * Math.PI * 0.6
+    const scrollTurn = scroll * Math.PI * 0.24
 
-    // The face-button deck faces the camera; roll it 180° so the Xbox logo sits at the top.
-    modelRef.current.rotation.x = Math.PI / 2 + Math.sin(time * 0.55) * 0.025 + scroll * 0.12
-    modelRef.current.rotation.y = Math.sin(time * 0.18) * 0.035 + scrollTurn
-    modelRef.current.rotation.z = Math.PI + Math.cos(time * 0.35) * 0.018 - scroll * 0.16
+    // Front-facing pose: +90° pitch exposes the buttons, then a 180° view-axis roll puts the Xbox logo at the top.
+    modelRef.current.rotation.set(
+      Math.PI / 2 + Math.sin(time * 0.55) * 0.018 + scroll * 0.06,
+      Math.sin(time * 0.18) * 0.02 + scrollTurn,
+      Math.PI + Math.cos(time * 0.35) * 0.012,
+    )
     modelRef.current.position.x = Math.sin(scroll * Math.PI) * 0.65
     modelRef.current.position.y = Math.sin(time * 0.8) * 0.06 - scroll * 0.42
 
