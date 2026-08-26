@@ -56,3 +56,103 @@
     box-shadow: 0 0 15px rgba(168, 85, 247, 0.2), inset 0 0 10px rgba(168, 85, 247, 0.1);
   }
 }
+
+.hero-grid {
+  position: absolute;
+  left: -18%;
+  right: -18%;
+  bottom: -34%;
+  height: 78%;
+  opacity: 0.3;
+  transform: perspective(520px) rotateX(61deg) scale(1.2);
+  transform-origin: center bottom;
+  background-image:
+    linear-gradient(rgba(0, 240, 255, 0.38) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(168, 85, 247, 0.32) 1px, transparent 1px);
+  background-size: 76px 76px;
+  mask-image: linear-gradient(to top, black 8%, rgba(0, 0, 0, 0.82) 42%, transparent 94%);
+  -webkit-mask-image: linear-gradient(to top, black 8%, rgba(0, 0, 0, 0.82) 42%, transparent 94%);
+  animation: hero-grid-drift 16s linear infinite;
+}
+
+.hero-grid__glow {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 42%;
+  opacity: 0.48;
+  background: radial-gradient(ellipse at center bottom, rgba(0, 240, 255, 0.2), transparent 68%);
+  filter: blur(18px);
+  animation: hero-grid-pulse 5s ease-in-out infinite;
+}
+
+.hero-boot__halo {
+  position: absolute;
+  width: min(75vw, 620px);
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(0, 240, 255, 0.1), rgba(168, 85, 247, 0.05) 38%, transparent 70%);
+  filter: blur(18px);
+  animation: hero-boot-pulse 4s ease-in-out infinite;
+}
+
+.hero-boot__display {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(0, 240, 255, 0.22);
+  border-radius: 8px;
+  padding: 1.4rem 1rem;
+  background: linear-gradient(180deg, rgba(17, 24, 39, 0.76), rgba(4, 2, 10, 0.86));
+  box-shadow: 0 0 46px rgba(0, 240, 255, 0.1), inset 0 0 24px rgba(168, 85, 247, 0.06);
+  color: #dffcff;
+  font-family: 'SFMono-Regular', 'Roboto Mono', 'Cascadia Code', 'Liberation Mono', Menlo, monospace;
+  font-size: clamp(1.15rem, 4vw, 2.35rem);
+  font-weight: 760;
+  letter-spacing: 0.12em;
+  text-shadow: 0 0 12px rgba(0, 240, 255, 0.68);
+}
+
+.hero-boot__display::after {
+  position: absolute;
+  inset: 50% 0 auto;
+  height: 1px;
+  content: '';
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+  box-shadow: 0 0 14px rgba(0, 240, 255, 0.35);
+}
+
+.hero-boot__message {
+  display: inline-block;
+  animation: hero-boot-flicker 0.8s steps(2, end) infinite;
+}
+
+@keyframes hero-grid-drift {
+  from { background-position: 0 0, 0 0; }
+  to { background-position: 0 76px, 76px 0; }
+}
+
+@keyframes hero-grid-pulse {
+  0%, 100% { opacity: 0.28; transform: scaleX(0.9); }
+  50% { opacity: 0.62; transform: scaleX(1.08); }
+}
+
+@keyframes hero-boot-pulse {
+  0%, 100% { opacity: 0.58; transform: scale(0.94); }
+  50% { opacity: 1; transform: scale(1.06); }
+}
+
+@keyframes hero-boot-flicker {
+  0%, 92%, 100% { opacity: 1; }
+  94% { opacity: 0.6; }
+  96% { opacity: 0.86; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-grid,
+  .hero-grid__glow,
+  .hero-boot__halo,
+  .hero-boot__message {
+    animation: none;
+  }
+}
